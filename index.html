@@ -131,6 +131,15 @@
             gap: 1rem;
             flex-wrap: wrap;
             align-items: center;
+            justify-content: space-between;
+        }
+
+        .filters-left,
+        .filters-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
         }
 
         .filter-label {
@@ -165,10 +174,73 @@
             border-color: var(--primary-dark);
         }
 
+        .filter-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .filter-btn[aria-pressed="true"] {
+            background: var(--primary-dark);
+            color: white;
+            border-color: var(--primary-dark);
+        }
+
+        .control-input,
+        .control-select {
+            border: 1px solid var(--border);
+            padding: 0.55rem 0.85rem;
+            font-size: 0.875rem;
+            font-family: 'Work Sans', sans-serif;
+            background: white;
+            color: var(--primary-dark);
+            border-radius: 2px;
+            transition: border 0.3s ease;
+        }
+
+        .control-input:focus,
+        .control-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .status-chips {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            background: rgba(26, 26, 26, 0.04);
+            font-size: 0.8rem;
+            letter-spacing: 0.03em;
+            color: var(--secondary);
+        }
+
+        .status-chip strong {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 3rem 2rem;
+        }
+
+        .section-content ul {
+            padding-left: 1.25rem;
+            margin: 0.5rem 0 0;
+        }
+
+        .section-content li {
+            margin-bottom: 0.3rem;
         }
 
         .domain-section {
@@ -238,15 +310,66 @@
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .card:hover {
+        .card:hover,
+        .card:focus-within,
+        .card:focus-visible {
             transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-            border-color: var(--accent);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+            border-color: var(--primary-dark);
+            background: var(--primary-dark);
+            color: #f5f5f5;
         }
 
-        .card:hover::before {
+        .card:hover::before,
+        .card:focus-within::before,
+        .card:focus-visible::before {
             transform: scaleY(1);
             transform-origin: top;
+        }
+
+        .card:hover .org-name,
+        .card:focus-within .org-name,
+        .card:hover .section-label,
+        .card:focus-within .section-label,
+        .card:hover .section-content,
+        .card:focus-visible .org-name,
+        .card:focus-within .section-content,
+        .card:hover .contact-item,
+        .card:focus-within .contact-item {
+            color: #f5f5f5;
+        }
+
+        .card:hover .status-badge,
+        .card:focus-visible .status-badge,
+        .card:focus-within .status-badge {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        .card:hover .benefit-tag,
+        .card:focus-visible .benefit-tag,
+        .card:focus-within .benefit-tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: #f5f5f5;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card:hover .contact-item svg,
+        .card:focus-visible .contact-item svg,
+        .card:focus-within .contact-item svg {
+            fill: #f5f5f5;
+        }
+
+        .card:hover .contact-item a,
+        .card:focus-visible .contact-item a,
+        .card:focus-within .contact-item a {
+            color: #f5f5f5;
+        }
+
+        .card:hover .contact-item a:hover,
+        .card:focus-visible .contact-item a:hover,
+        .card:focus-within .contact-item a:hover {
+            color: var(--accent);
         }
 
         .card-header {
@@ -331,6 +454,15 @@
             fill: var(--accent);
         }
 
+        .contact-item a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            color: var(--accent);
+        }
+
         .benefits-list {
             display: flex;
             flex-wrap: wrap;
@@ -373,6 +505,17 @@
             letter-spacing: 0.05em;
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.5rem;
@@ -391,6 +534,13 @@
             }
 
             .filter-container {
+                justify-content: center;
+            }
+            .filters-left,
+            .filters-right {
+                justify-content: center;
+            }
+            .status-chips {
                 justify-content: center;
             }
         }
@@ -418,11 +568,22 @@
 
     <div class="filter-bar">
         <div class="filter-container">
-            <span class="filter-label">Filter by:</span>
-            <button class="filter-btn active" onclick="filterByStatus('all')">All</button>
-            <button class="filter-btn" onclick="filterByStatus('CNF')">Confirmed</button>
-            <button class="filter-btn" onclick="filterByStatus('Pending')">Pending</button>
-            <button class="filter-btn" onclick="filterByStatus('Rejected')">Rejected</button>
+            <div class="filters-left">
+                <span class="filter-label">Status:</span>
+                <button class="filter-btn active" data-filter="all" type="button" aria-pressed="true">All</button>
+                <button class="filter-btn" data-filter="CNF" type="button" aria-pressed="false">Confirmed</button>
+                <button class="filter-btn" data-filter="Pending" type="button" aria-pressed="false">Pending</button>
+                <button class="filter-btn" data-filter="Rejected" type="button" aria-pressed="false">Rejected</button>
+            </div>
+            <div class="filters-right">
+                <label class="filter-label" for="domainSelect">Domain</label>
+                <select id="domainSelect" class="control-select">
+                    <option value="all">All Domains</option>
+                </select>
+                <label class="filter-label" for="searchInput">Search</label>
+                <input id="searchInput" type="search" class="control-input" placeholder="Search organization or exhibit..." aria-label="Search exhibitors">
+            </div>
+            <div class="status-chips" id="statusChips" aria-live="polite"></div>
         </div>
     </div>
 
@@ -435,173 +596,407 @@
     </div>
 
     <script>
-        const data = [
-            {"domain": "University Departments", "org": "Directorate of Admissions", "mobile": "", "email": "", "status": "CNF", "exhibits": "", "benefitSchools": "", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "University Departments", "org": "Live-in-Labs", "mobile": "", "email": "", "status": "CNF", "exhibits": "", "benefitSchools": "Learn how to implement ideas...", "benefitCollege": "Real-world engineering problems...", "benefitPublic": "", "poc": ""},
-            {"domain": "University Departments", "org": "Sustainable Development Goals", "mobile": "", "email": "", "status": "CNF", "exhibits": "", "benefitSchools": "Learn about green energy...", "benefitCollege": "", "benefitPublic": "Promotes cleaner environment...", "poc": ""},
-            {"domain": "University Departments", "org": "Amrita School of Business", "mobile": "", "email": "", "status": "CNF", "exhibits": "", "benefitSchools": "Learn how business world works...", "benefitCollege": "Know curriculum, Tech entrepreneurship...", "benefitPublic": "", "poc": ""},
-            {"domain": "Nature & Agriculture", "org": "Amrita Nursery", "mobile": "", "email": "", "status": "Pending", "exhibits": "Display potted plants, terrariums...", "benefitSchools": "Learn about plants & local flora...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "University Departments", "org": "Amrita International School of Law", "mobile": "", "email": "", "status": "Pending", "exhibits": "Moot Court Models, Legal Tech...", "benefitSchools": "Learn about constitution & human rights...", "benefitCollege": "Research students, IPR, tech laws...", "benefitPublic": "Enhances legal awareness...", "poc": ""},
-            {"domain": "Healthcare & Wellness", "org": "Amrita Institute of Medical Sciences", "mobile": "", "email": "", "status": "Pending", "exhibits": "Medical Models, 3D-printed organs...", "benefitSchools": "Learn medical practices, first aid...", "benefitCollege": "Interact with medical students...", "benefitPublic": "", "poc": ""},
-            {"domain": "Healthcare & Wellness", "org": "Amrita School of Ayurveda", "mobile": "", "email": "", "status": "Pending", "exhibits": "Herbal Samples, Pulse Diagnosis...", "benefitSchools": "Learn procedural approach to heal...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Textiles & Art", "org": "Silkvillage Handloom Training", "mobile": "+91 0422 350 0914", "email": "silkvillageinst@gmail.com", "status": "Pending", "exhibits": "Sarees, GI-tagged cloth, weaving demos...", "benefitSchools": "Learn procedures to process handlooms...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Textiles & Art", "org": "Coimbatore Cotton Concepts", "mobile": "096777 21009", "email": "admin@cottonconcepts.co.in", "status": "Pending", "exhibits": "", "benefitSchools": "See live demo of fabric weaving...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Textiles & Art", "org": "Kasthuri Sreenivasan Trust Art Gallery", "mobile": "0422–2574110", "email": "kst.culturecentre@gmail.com", "status": "Pending", "exhibits": "Art Gallery, Textile Museum Artifacts...", "benefitSchools": "Explore global art, ancient costumes...", "benefitCollege": "", "benefitPublic": "Cultural enrichment...", "poc": ""},
-            {"domain": "Automotive & Mobility", "org": "Gedee Car Museum", "mobile": "0422-2222548", "email": "administration@gdnc.in", "status": "Pending", "exhibits": "Vintage Cars, Engine Displays...", "benefitSchools": "Explore cars, engine science...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Government & Public Service", "org": "TamilNadu Police Museum", "mobile": "42223000250", "email": "tnpmcbe@gmail.com", "status": "Pending", "exhibits": "Uniforms, Weapons Replicas, Crime Tools...", "benefitSchools": "Explore police history, forensic science...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Science & Education", "org": "Regional Science Centre", "mobile": "0422-2963026", "email": "rsc.kovai14@gmail.com", "status": "Pending", "exhibits": "Hands-on Models, Textile Displays...", "benefitSchools": "Explore science hands-on...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Science & Education", "org": "PSG GRD Museum of Science & Technology", "mobile": "91 76039 60913", "email": "thepsggrdmuseum.com", "status": "Pending", "exhibits": "Energy Models, Automotive Exhibits...", "benefitSchools": "Explore hands-on exhibits on space...", "benefitCollege": "", "benefitPublic": "", "poc": "Chakrith"},
-            {"domain": "Manufacturing & Engineering", "org": "LMW (Lakshmi Machine Works)", "mobile": "7397724602", "email": "info@lmw.co.in", "status": "Pending", "exhibits": "Mini Spinning Machines, Automation...", "benefitSchools": "Witness how machines make machines...", "benefitCollege": "Network with companies...", "benefitPublic": "", "poc": ""},
-            {"domain": "Manufacturing & Engineering", "org": "ELGi Equipments Ltd", "mobile": "0422 2589555", "email": "enquiry@elgi.com", "status": "Pending", "exhibits": "Mini Screw Compressor Heads...", "benefitSchools": "Learn global precision engineering...", "benefitCollege": "See what they learnt in classrooms...", "benefitPublic": "", "poc": ""},
-            {"domain": "Automotive & Mobility", "org": "Pricol Ltd", "mobile": "91 422 433 6000", "email": "connect@pricol.com", "status": "Pending", "exhibits": "Instrument Clusters, Sensors...", "benefitSchools": "Study smart vehicle parts...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Manufacturing & Engineering", "org": "Craftsman Automation Limited", "mobile": "0422 7165000", "email": "storage@craftsmanautomation.com", "status": "Pending", "exhibits": "Powertrain Parts, Aluminum Components...", "benefitSchools": "Learn precision manufacturing...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Automation & Robotics", "org": "Tech7 Automations", "mobile": "094422 26241", "email": "hr@tech7automation.com", "status": "Pending", "exhibits": "Control Panels, Sensors...", "benefitSchools": "", "benefitCollege": "Learn industrial automation...", "benefitPublic": "", "poc": ""},
-            {"domain": "Automation & Robotics", "org": "Galaxon Engineering Industries", "mobile": "7200046755", "email": "info@galaxeon.com", "status": "Pending", "exhibits": "Tabletop Robots, Fixtures...", "benefitSchools": "", "benefitCollege": "Learn to program industrial robots...", "benefitPublic": "", "poc": "Chakrith"},
-            {"domain": "Technology & AI", "org": "Dotworld Technologies", "mobile": "090086 05684", "email": "hr@dotworld.in", "status": "Pending", "exhibits": "Robots, Simulators, AR/VR...", "benefitSchools": "Explore AI, AR/VR applications...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Automation & Robotics", "org": "Goat Robotics", "mobile": "096776 41555", "email": "sales@goat-robotics.com", "status": "Pending", "exhibits": "AMR demo, Control station...", "benefitSchools": "Learn to build smart robots...", "benefitCollege": "", "benefitPublic": "", "poc": "Sri Mahesh Abhiram"},
-            {"domain": "Defence & Electronics", "org": "SLN Technologies", "mobile": "0422 2596161", "email": "anil@slntech.com", "status": "Pending", "exhibits": "Rugged embedded boards, Test fixtures...", "benefitSchools": "", "benefitCollege": "Learn to design ultra-reliable electronics...", "benefitPublic": "", "poc": ""},
-            {"domain": "Aerospace", "org": "Agnikul Cosmos Private Limited", "mobile": "72472 46334", "email": "curious@agnikul.in", "status": "Pending", "exhibits": "Rocket models, 3D-printing...", "benefitSchools": "Learn to build rockets...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Aerospace", "org": "Mano Aircraft Private Limited", "mobile": "8870971778", "email": "vignesh@manoaircrafts.com", "status": "Pending", "exhibits": "Carbon Fiber Components...", "benefitSchools": "", "benefitCollege": "Learn to design light aircraft...", "benefitPublic": "", "poc": ""},
-            {"domain": "Healthcare & Wellness", "org": "CSCCG (Stem Cell & Cancer)", "mobile": "0422-4364873", "email": "amibioscience@gmail.com", "status": "Pending", "exhibits": "Cell Culture Models, Genomics...", "benefitSchools": "", "benefitCollege": "Hands-on training in Genomics...", "benefitPublic": "", "poc": ""},
-            {"domain": "Media & Communication", "org": "All India Radio Coimbatore", "mobile": "0422 231 7671", "email": "aircbe@md5.vsnl.net.in", "status": "Rejected", "exhibits": "Vintage Equipment, Live Demos...", "benefitSchools": "Learn public service broadcasting...", "benefitCollege": "", "benefitPublic": "Reliable public broadcasting...", "poc": "Sri Mahesh Abhiram"},
-            {"domain": "Environment & Sustainability", "org": "TNPCB", "mobile": "0422-2677007", "email": "jceemcbe@tnpcb.gov.in", "status": "Pending", "exhibits": "Monitoring Devices, Awareness Stalls...", "benefitSchools": "Learn how TNPCB enforces laws...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Automotive & Mobility", "org": "Kochi Water Metro", "mobile": "7511165656", "email": "customercare@watermetro.co.in", "status": "Pending", "exhibits": "Scale Models, VR simulations...", "benefitSchools": "Learn about electric-hybrid propulsion...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Government & Public Service", "org": "Town and Country Planning Office", "mobile": "0422-2380243", "email": "kovaidisttcp@gmail.com", "status": "Pending", "exhibits": "Models and Maps, GIS Visuals...", "benefitSchools": "Learn planned urban development...", "benefitCollege": "", "benefitPublic": "", "poc": ""},
-            {"domain": "Environment & Sustainability", "org": "Green India Recyclers", "mobile": "+91 90034 91034", "email": "info@greenindiarecyclers.com", "status": "Rejected", "exhibits": "Disassembled gadgets, recycling stats...", "benefitSchools": "Learn secure E-Waste Management...", "benefitCollege": "", "benefitPublic": "", "poc": "Sri Mahesh Abhiram"}
+        const exhibitors = [
+            {"domain": "University Departments", "org": "Directorate of Admissions", "mobile": "", "email": "", "status": "CNF", "exhibits": "", "benefitSchools": ""},
+            {"domain": "University Departments", "org": "Live-in-Labs", "mobile": "", "email": "", "status": "CNF", "exhibits": "", "benefitSchools": "Learn how to implement ideas..."},
+            {"domain": "University Departments", "org": "Sustainable Development Goals", "mobile": "", "email": "", "status": "CNF", "exhibits": "", "benefitSchools": "Learn about green energy..."},
+            {"domain": "University Departments", "org": "Amrita School of Business", "mobile": "", "email": "", "status": "CNF", "exhibits": "", "benefitSchools": "Learn how business world works..."},
+            {"domain": "Nature & Agriculture", "org": "Amrita Nursery", "mobile": "", "email": "", "status": "Pending", "exhibits": "Display potted plants, terrariums...", "benefitSchools": "Learn about plants & local flora..."},
+            {"domain": "University Departments", "org": "Amrita International School of Law", "mobile": "", "email": "", "status": "Pending", "exhibits": "Moot Court Models, Legal Tech...", "benefitSchools": "Learn about constitution & human rights..."},
+            {"domain": "Healthcare & Wellness", "org": "Amrita Institute of Medical Sciences", "mobile": "", "email": "", "status": "Pending", "exhibits": "Medical Models, 3D-printed organs...", "benefitSchools": "Learn medical practices, first aid..."},
+            {"domain": "Healthcare & Wellness", "org": "Amrita School of Ayurveda", "mobile": "", "email": "", "status": "Pending", "exhibits": "Herbal Samples, Pulse Diagnosis...", "benefitSchools": "Learn procedural approach to heal..."},
+            {"domain": "Textiles & Art", "org": "Silkvillage Handloom Training", "mobile": "+91 0422 350 0914", "email": "silkvillageinst@gmail.com", "status": "Pending", "exhibits": "Sarees, GI-tagged cloth, weaving demos...", "benefitSchools": "Learn procedures to process handlooms..."},
+            {"domain": "Textiles & Art", "org": "Coimbatore Cotton Concepts", "mobile": "096777 21009", "email": "admin@cottonconcepts.co.in", "status": "Pending", "exhibits": "", "benefitSchools": "See live demo of fabric weaving..."},
+            {"domain": "Textiles & Art", "org": "Kasthuri Sreenivasan Trust Art Gallery", "mobile": "0422–2574110", "email": "kst.culturecentre@gmail.com", "status": "Rejected", "exhibits": "Art Gallery, Textile Museum Artifacts...", "benefitSchools": "Explore global art, ancient costumes..."},
+            {"domain": "Automotive & Mobility", "org": "Gedee Car Museum", "mobile": "0422-2222548", "email": "administration@gdnc.in", "status": "Rejected", "exhibits": "Vintage Cars, Engine Displays...", "benefitSchools": "Explore cars, engine science..."},
+            {"domain": "Government & Public Service", "org": "TamilNadu Police Museum", "mobile": "42223000250", "email": "tnpmcbe@gmail.com", "status": "Rejected", "exhibits": "Uniforms, Weapons Replicas, Crime Tools...", "benefitSchools": "Explore police history, forensic science..."},
+            {"domain": "Science & Education", "org": "Regional Science Centre", "mobile": "0422-2963026", "email": "rsc.kovai14@gmail.com", "status": "Rejected", "exhibits": "Hands-on Models, Textile Displays...", "benefitSchools": "Explore science hands-on..."},
+            {"domain": "Science & Education", "org": "PSG GRD Museum of Science & Technology", "mobile": "91 76039 60913", "email": "thepsggrdmuseum.com", "status": "Pending", "exhibits": "Energy Models, Automotive Exhibits...", "benefitSchools": "Explore hands-on exhibits on space..."},
+            {"domain": "Manufacturing & Engineering", "org": "LMW (Lakshmi Machine Works)", "mobile": "7397724602", "email": "info@lmw.co.in", "status": "Pending", "exhibits": "Mini Spinning Machines, Automation...", "benefitSchools": "Witness how machines make machines..."},
+            {"domain": "Manufacturing & Engineering", "org": "ELGi Equipments Ltd", "mobile": "0422 2589555", "email": "enquiry@elgi.com", "status": "Pending", "exhibits": "Mini Screw Compressor Heads...", "benefitSchools": "Learn global precision engineering..."},
+            {"domain": "Automotive & Mobility", "org": "Pricol Ltd", "mobile": "91 422 433 6000", "email": "connect@pricol.com", "status": "Pending", "exhibits": "Instrument Clusters, Sensors...", "benefitSchools": "Study smart vehicle parts..."},
+            {"domain": "Manufacturing & Engineering", "org": "Craftsman Automation Limited", "mobile": "0422 7165000", "email": "storage@craftsmanautomation.com", "status": "Pending", "exhibits": "Powertrain Parts, Aluminum Components...", "benefitSchools": "Learn precision manufacturing..."},
+            {"domain": "Automation & Robotics", "org": "Tech7 Automations", "mobile": "094422 26241", "email": "hr@tech7automation.com", "status": "Rejected", "exhibits": "Control Panels, Sensors...", "benefitSchools": ""},
+            {"domain": "Automation & Robotics", "org": "Galaxon Engineering Industries", "mobile": "7200046755", "email": "info@galaxeon.com", "status": "Rejected", "exhibits": "Tabletop Robots, Fixtures...", "benefitSchools": ""},
+            {"domain": "Technology & AI", "org": "Dotworld Technologies", "mobile": "090086 05684", "email": "hr@dotworld.in", "status": "Pending", "exhibits": "Robots, Simulators, AR/VR...", "benefitSchools": "Explore AI, AR/VR applications..."},
+            {"domain": "Automation & Robotics", "org": "Goat Robotics", "mobile": "096776 41555", "email": "sales@goat-robotics.com", "status": "Pending", "exhibits": "AMR demo, Control station...", "benefitSchools": "Learn to build smart robots..."},
+            {"domain": "Defence & Electronics", "org": "SLN Technologies", "mobile": "0422 2596161", "email": "anil@slntech.com", "status": "Rejected", "exhibits": "Rugged embedded boards, Test fixtures...", "benefitSchools": ""},
+            {"domain": "Aerospace", "org": "Agnikul Cosmos Private Limited", "mobile": "72472 46334", "email": "curious@agnikul.in", "status": "Rejected", "exhibits": "Rocket models, 3D-printing...", "benefitSchools": "Learn to build rockets..."},
+            {"domain": "Aerospace", "org": "Mano Aircraft Private Limited", "mobile": "8870971778", "email": "vignesh@manoaircrafts.com", "status": "Pending", "exhibits": "Carbon Fiber Components...", "benefitSchools": ""},
+            {"domain": "Healthcare & Wellness", "org": "CSCCG (Stem Cell & Cancer)", "mobile": "0422-4364873", "email": "amibioscience@gmail.com", "status": "Pending", "exhibits": "Cell Culture Models, Genomics...", "benefitSchools": ""},
+            {"domain": "Media & Communication", "org": "All India Radio Coimbatore", "mobile": "0422 231 7671", "email": "aircbe@md5.vsnl.net.in", "status": "Pending", "exhibits": "Vintage Equipment, Live Demos...", "benefitSchools": "Learn public service broadcasting..."},
+            {"domain": "Environment & Sustainability", "org": "TNPCB", "mobile": "0422-2677007", "email": "jceemcbe@tnpcb.gov.in", "status": "Pending", "exhibits": "Monitoring Devices, Awareness Stalls...", "benefitSchools": "Learn how TNPCB enforces laws..."},
+            {"domain": "Automotive & Mobility", "org": "Kochi Water Metro", "mobile": "7511165656", "email": "customercare@watermetro.co.in", "status": "Rejected", "exhibits": "Scale Models, VR simulations...", "benefitSchools": "Learn about electric-hybrid propulsion..."},
+            {"domain": "Government & Public Service", "org": "Town and Country Planning Office", "mobile": "0422-2380243", "email": "kovaidisttcp@gmail.com", "status": "Pending", "exhibits": "Models and Maps, GIS Visuals...", "benefitSchools": "Learn planned urban development..."},
+            {"domain": "Environment & Sustainability", "org": "Green India Recyclers", "mobile": "+91 90034 91034", "email": "info@greenindiarecyclers.com", "status": "Rejected", "exhibits": "Disassembled gadgets, recycling stats...", "benefitSchools": "Learn secure E-Waste Management..."},
+            {"domain": "Technology & AI", "org": "Fisto Tech Private Limited", "mobile": "7530025147", "email": "info@fist-o.com", "status": "Pending", "exhibits": "AR/VR, 3D adn 2D animation", "benefitSchools": "Explore AI, AR/VR applications"}
         ];
 
-        let currentFilter = 'all';
+        document.addEventListener('DOMContentLoaded', () => {
+            const filters = {
+                status: 'all',
+                domain: 'all',
+                search: ''
+            };
 
-        function groupByDomain(items) {
-            const grouped = {};
-            items.forEach(item => {
-                if (!grouped[item.domain]) {
-                    grouped[item.domain] = [];
+            const dom = {
+                content: document.getElementById('content'),
+                statusDisplay: document.getElementById('statusChips'),
+                domainSelect: document.getElementById('domainSelect'),
+                searchInput: document.getElementById('searchInput'),
+                filterButtons: Array.from(document.querySelectorAll('.filter-btn')),
+                totals: {
+                    orgs: document.getElementById('totalOrgs'),
+                    domains: document.getElementById('totalDomains'),
+                    confirmed: document.getElementById('confirmedCount')
                 }
-                grouped[item.domain].push(item);
-            });
-            return grouped;
-        }
+            };
 
-        function createCard(item) {
-            const benefits = [];
-            if (item.benefitSchools) benefits.push({type: 'Schools', text: item.benefitSchools});
-            if (item.benefitCollege) benefits.push({type: 'College', text: item.benefitCollege});
-            if (item.benefitPublic) benefits.push({type: 'Public', text: item.benefitPublic});
+            const collator = new Intl.Collator(undefined, { sensitivity: 'base' });
+            const statusClassMap = {
+                CNF: 'status-cnf',
+                Pending: 'status-pending',
+                Rejected: 'status-rejected'
+            };
 
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="org-name">${item.org}</h3>
-                        <span class="status-badge status-${item.status.toLowerCase()}">${item.status}</span>
-                    </div>
-                    
-                    ${item.exhibits ? `
-                        <div class="card-section">
-                            <div class="section-label">Exhibits</div>
-                            <div class="section-content">${item.exhibits}</div>
-                        </div>
-                    ` : ''}
-                    
-                    ${benefits.length > 0 ? `
-                        <div class="card-section">
-                            <div class="section-label">Benefits</div>
-                            <div class="benefits-list">
-                                ${benefits.map(b => `<span class="benefit-tag">${b.type}: ${b.text}</span>`).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
-                    
-                    ${(item.mobile || item.email) ? `
-                        <div class="card-section">
-                            <div class="section-label">Contact</div>
-                            <div class="contact-info">
-                                ${item.mobile ? `
-                                    <div class="contact-item">
-                                        <svg viewBox="0 0 24 24"><path d="M20 10.999h2C22 5.869 18.127 2 12.99 2v2C17.052 4 20 6.943 20 10.999z"></path><path d="M13 8c2.103 0 3 .897 3 3h2c0-3.225-1.775-5-5-5v2zm3.422 5.443a1.001 1.001 0 0 0-1.391.043l-2.393 2.461c-.576-.11-1.734-.471-2.926-1.66-1.223-1.22-1.556-2.426-1.663-2.926l2.459-2.394a1 1 0 0 0 .043-1.391L6.859 3.513a1 1 0 0 0-1.391-.087l-2.17 1.861a1 1 0 0 0-.29.649c-.015.25-.301 6.172 4.291 10.766C11.305 20.707 16.323 21 17.705 21c.202 0 .326-.006.359-.008a.992.992 0 0 0 .648-.291l1.86-2.171a1 1 0 0 0-.086-1.391l-4.064-3.696z"></path></svg>
-                                        ${item.mobile}
-                                    </div>
-                                ` : ''}
-                                ${item.email ? `
-                                    <div class="contact-item">
-                                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"></path></svg>
-                                        ${item.email}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    ` : ''}
-                    
-                    ${item.poc ? `
-                        <div class="card-section">
-                            <div class="section-label">Point of Contact</div>
-                            <div class="section-content">${item.poc}</div>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-        }
-
-        function renderContent(filteredData) {
-            const grouped = groupByDomain(filteredData);
-            const container = document.getElementById('content');
-            
-            if (filteredData.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">∅</div>
-                        <p>No organizations found with the selected filter.</p>
-                    </div>
-                `;
-                return;
+            function createElement(tag, options = {}) {
+                const element = document.createElement(tag);
+                if (options.className) {
+                    element.className = options.className;
+                }
+                if (typeof options.text === 'string') {
+                    element.textContent = options.text;
+                }
+                if (options.attrs) {
+                    Object.entries(options.attrs).forEach(([key, value]) => {
+                        if (value !== undefined && value !== null) {
+                            element.setAttribute(key, value);
+                        }
+                    });
+                }
+                if (options.children) {
+                    options.children.forEach(child => {
+                        if (child) {
+                            element.appendChild(child);
+                        }
+                    });
+                }
+                return element;
             }
-            
-            let html = '';
-            Object.keys(grouped).sort().forEach(domain => {
-                const orgs = grouped[domain];
-                html += `
-                    <div class="domain-section">
-                        <div class="domain-header">
-                            <div class="domain-icon"></div>
-                            <h2 class="domain-title">${domain}</h2>
-                            <span class="domain-count">(${orgs.length})</span>
-                        </div>
-                        <div class="cards-grid">
-                            ${orgs.map(org => createCard(org)).join('')}
-                        </div>
-                    </div>
-                `;
+
+            function createSection(label) {
+                return createElement('div', {
+                    className: 'card-section',
+                    children: [
+                        createElement('div', { className: 'section-label', text: label })
+                    ]
+                });
+            }
+
+            function parseList(text) {
+                if (!text) {
+                    return [];
+                }
+                const trimmed = text.trim();
+                if (!trimmed) {
+                    return [];
+                }
+                if (!trimmed.includes(';')) {
+                    return [trimmed];
+                }
+                return trimmed
+                    .split(';')
+                    .map(item => item.trim())
+                    .filter(Boolean);
+            }
+
+            function appendParagraphOrList(container, entries) {
+                if (!entries.length) {
+                    return;
+                }
+                if (entries.length === 1) {
+                    container.appendChild(createElement('p', { text: entries[0] }));
+                    return;
+                }
+                const list = createElement('ul');
+                entries.forEach(value => {
+                    list.appendChild(createElement('li', { text: value }));
+                });
+                container.appendChild(list);
+            }
+
+            function formatPhone(value) {
+                return (value || '').replace(/[^0-9+]/g, '');
+            }
+
+            function createIcon(paths) {
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.setAttribute('viewBox', '0 0 24 24');
+                svg.setAttribute('aria-hidden', 'true');
+                paths.forEach(d => {
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.setAttribute('d', d);
+                    svg.appendChild(path);
+                });
+                return svg;
+            }
+
+            function createContactItem({ href, text, iconPaths }) {
+                if (!text) {
+                    return null;
+                }
+                const wrapper = createElement('div', { className: 'contact-item' });
+                const link = createElement('a', { text, attrs: { href } });
+                wrapper.appendChild(createIcon(iconPaths));
+                wrapper.appendChild(link);
+                return wrapper;
+            }
+
+            function createCard(item) {
+                const card = createElement('article', {
+                    className: 'card',
+                    attrs: {
+                        tabindex: '0',
+                        'aria-label': `${item.org} exhibitor card`
+                    }
+                });
+
+                const header = createElement('div', { className: 'card-header' });
+                header.appendChild(createElement('h3', { className: 'org-name', text: item.org }));
+                header.appendChild(
+                    createElement('span', {
+                        className: `status-badge ${statusClassMap[item.status] || ''}`,
+                        text: item.status
+                    })
+                );
+                card.appendChild(header);
+
+                const exhibitEntries = parseList(item.exhibits);
+                if (exhibitEntries.length) {
+                    const exhibitsSection = createSection('Exhibits');
+                    const content = createElement('div', { className: 'section-content' });
+                    appendParagraphOrList(content, exhibitEntries);
+                    exhibitsSection.appendChild(content);
+                    card.appendChild(exhibitsSection);
+                }
+
+                const schoolBenefits = parseList(item.benefitSchools);
+                if (schoolBenefits.length) {
+                    const benefitsSection = createSection('Benefits for Schools');
+                    const list = createElement('div', { className: 'benefits-list' });
+                    schoolBenefits.forEach(text => {
+                        list.appendChild(
+                            createElement('span', {
+                                className: 'benefit-tag',
+                                text
+                            })
+                        );
+                    });
+                    benefitsSection.appendChild(list);
+                    card.appendChild(benefitsSection);
+                }
+
+                const contactInfo = createElement('div', { className: 'contact-info' });
+                const phoneValue = (item.mobile || '').trim();
+                const emailValue = (item.email || '').trim();
+                const contactItems = [
+                    createContactItem({
+                        href: `tel:${formatPhone(phoneValue)}`,
+                        text: phoneValue,
+                        iconPaths: [
+                            'M20 10.999h2C22 5.869 18.127 2 12.99 2v2C17.052 4 20 6.943 20 10.999z',
+                            'M13 8c2.103 0 3 .897 3 3h2c0-3.225-1.775-5-5-5v2zm3.422 5.443a1.001 1.001 0 0 0-1.391.043l-2.393 2.461c-.576-.11-1.734-.471-2.926-1.66-1.223-1.22-1.556-2.426-1.663-2.926l2.459-2.394a1 1 0 0 0 .043-1.391L6.859 3.513a1 1 0 0 0-1.391-.087l-2.17 1.861a1 1 0 0 0-.29.649c-.015.25-.301 6.172 4.291 10.766C11.305 20.707 16.323 21 17.705 21c.202 0 .326-.006.359-.008a.992.992 0 0 0 .648-.291l1.86-2.171a1 1 0 0 0-.086-1.391l-4.064-3.696z'
+                        ]
+                    }),
+                    createContactItem({
+                        href: `mailto:${encodeURIComponent(emailValue)}`,
+                        text: emailValue,
+                        iconPaths: [
+                            'M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z'
+                        ]
+                    })
+                ].filter(Boolean);
+
+                contactItems.forEach(itemNode => contactInfo.appendChild(itemNode));
+                if (contactInfo.children.length) {
+                    const contactSection = createSection('Contact');
+                    contactSection.appendChild(contactInfo);
+                    card.appendChild(contactSection);
+                }
+
+                return card;
+            }
+
+            function buildEmptyState() {
+                return createElement('div', {
+                    className: 'empty-state',
+                    children: [
+                        createElement('div', { className: 'empty-state-icon', text: '∅' }),
+                        createElement('p', { text: 'No organizations found with the selected filters.' })
+                    ]
+                });
+            }
+
+            function groupByDomain(items) {
+                return items.reduce((map, item) => {
+                    if (!map.has(item.domain)) {
+                        map.set(item.domain, []);
+                    }
+                    map.get(item.domain).push(item);
+                    return map;
+                }, new Map());
+            }
+
+            function renderContent(items) {
+                dom.content.replaceChildren();
+                if (!items.length) {
+                    dom.content.appendChild(buildEmptyState());
+                    return;
+                }
+
+                const grouped = groupByDomain(items);
+                const fragment = document.createDocumentFragment();
+                const sortedDomains = Array.from(grouped.keys()).sort(collator.compare);
+
+                sortedDomains.forEach(domain => {
+                    const section = createElement('section', { className: 'domain-section' });
+                    const header = createElement('div', { className: 'domain-header' });
+                    header.appendChild(createElement('div', { className: 'domain-icon' }));
+                    header.appendChild(createElement('h2', { className: 'domain-title', text: domain }));
+                    header.appendChild(
+                        createElement('span', {
+                            className: 'domain-count',
+                            text: `(${grouped.get(domain).length})`
+                        })
+                    );
+                    section.appendChild(header);
+
+                    const grid = createElement('div', { className: 'cards-grid' });
+                    const sortedOrgs = grouped.get(domain).slice().sort((a, b) => collator.compare(a.org, b.org));
+                    sortedOrgs.forEach(org => {
+                        grid.appendChild(createCard(org));
+                    });
+                    section.appendChild(grid);
+
+                    fragment.appendChild(section);
+                });
+
+                dom.content.appendChild(fragment);
+            }
+
+            function applyFilters() {
+                const searchTerm = filters.search.trim().toLowerCase();
+                return exhibitors.filter(item => {
+                    const statusMatch = filters.status === 'all' || item.status === filters.status;
+                    const domainMatch = filters.domain === 'all' || item.domain === filters.domain;
+                    const searchMatch = !searchTerm || [
+                        item.org,
+                        item.domain,
+                        item.exhibits,
+                        item.benefitSchools
+                    ].some(field => field && field.toLowerCase().includes(searchTerm));
+                    return statusMatch && domainMatch && searchMatch;
+                });
+            }
+
+            function createStatusChip(label, value) {
+                const chip = createElement('span', { className: 'status-chip' });
+                chip.appendChild(createElement('strong', { text: label }));
+                chip.append(` ${value}`);
+                return chip;
+            }
+
+            function renderStatusChips(items, domainCount, statusCounts) {
+                dom.statusDisplay.replaceChildren(
+                    createStatusChip('Showing', `${items.length} of ${exhibitors.length} organizations`),
+                    createStatusChip('Domains', domainCount || 0),
+                    createStatusChip('Confirmed', statusCounts.CNF || 0),
+                    createStatusChip('Pending', statusCounts.Pending || 0),
+                    createStatusChip('Rejected', statusCounts.Rejected || 0)
+                );
+            }
+
+            function updateStats(items) {
+                const domainCount = new Set(items.map(item => item.domain)).size;
+                const statusCounts = items.reduce(
+                    (acc, item) => {
+                        acc[item.status] = (acc[item.status] || 0) + 1;
+                        return acc;
+                    },
+                    { CNF: 0, Pending: 0, Rejected: 0 }
+                );
+
+                dom.totals.orgs.textContent = String(items.length);
+                dom.totals.domains.textContent = String(domainCount);
+                dom.totals.confirmed.textContent = String(statusCounts.CNF || 0);
+
+                renderStatusChips(items, domainCount, statusCounts);
+            }
+
+            function refreshView() {
+                const filtered = applyFilters();
+                renderContent(filtered);
+                updateStats(filtered);
+            }
+
+            function updateFilterButtons(activeValue) {
+                dom.filterButtons.forEach(button => {
+                    const isActive = button.dataset.filter === activeValue;
+                    button.classList.toggle('active', isActive);
+                    button.setAttribute('aria-pressed', String(isActive));
+                });
+            }
+
+            function populateDomainSelect() {
+                const domains = Array.from(new Set(exhibitors.map(item => item.domain))).sort(collator.compare);
+                const fragment = document.createDocumentFragment();
+                domains.forEach(domain => {
+                    fragment.appendChild(
+                        createElement('option', {
+                            text: domain,
+                            attrs: { value: domain }
+                        })
+                    );
+                });
+                dom.domainSelect.appendChild(fragment);
+            }
+
+            function debounce(fn, delay = 200) {
+                let timeoutId;
+                return value => {
+                    if (timeoutId) {
+                        window.clearTimeout(timeoutId);
+                    }
+                    timeoutId = window.setTimeout(() => fn(value), delay);
+                };
+            }
+
+            const handleSearchInput = debounce(value => {
+                filters.search = value;
+                refreshView();
             });
-            
-            container.innerHTML = html;
-        }
 
-        function filterByStatus(status) {
-            currentFilter = status;
-            
-            // Update button states
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
+            dom.filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filters.status = button.dataset.filter;
+                    updateFilterButtons(filters.status);
+                    refreshView();
+                });
             });
-            event.target.classList.add('active');
-            
-            // Filter data
-            const filteredData = status === 'all' 
-                ? data 
-                : data.filter(item => item.status === status);
-            
-            // Re-render
-            renderContent(filteredData);
-        }
 
-        // Initial render
-        renderContent(data);
+            dom.domainSelect.addEventListener('change', event => {
+                filters.domain = event.target.value;
+                refreshView();
+            });
 
-        // Update stats
-        const domains = [...new Set(data.map(item => item.domain))];
-        document.getElementById('totalOrgs').textContent = data.length;
-        document.getElementById('totalDomains').textContent = domains.length;
-        document.getElementById('confirmedCount').textContent = data.filter(item => item.status === 'CNF').length;
+            dom.searchInput.addEventListener('input', event => {
+                handleSearchInput(event.target.value);
+            });
+
+            populateDomainSelect();
+            updateFilterButtons(filters.status);
+            refreshView();
+        });
     </script>
 </body>
 </html>
